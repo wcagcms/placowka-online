@@ -1,0 +1,16 @@
+Placówka Online
+Copyright (C) 2026 Adam Trojanowski
+
+This distribution includes the Placówka Online web application, Windows
+monitoring agent source, enrollment helper source, installer definition,
+build scripts and documentation.
+
+The code is distributed under AGPL-3.0-or-later. Third-party packages keep
+their own licenses. See THIRD_PARTY_LICENSES.md and the lock files.
+
+The name "Placówka Online" and project visual identity identify the original
+project. The software license does not grant a right to imply endorsement by
+the original author.
+
+Portions of the application skeleton are derived from Laravel and are available
+under the MIT License. See LICENSES/MIT.txt.

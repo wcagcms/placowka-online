@@ -1,0 +1,23 @@
+name: Propozycja funkcji
+description: Zaproponuj bezpieczne rozszerzenie projektu.
+title: "[Propozycja] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Jaki problem rozwiązuje propozycja?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proponowane rozwiązanie
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Wpływ na prywatność i bezpieczeństwo
+    validations:
+      required: true

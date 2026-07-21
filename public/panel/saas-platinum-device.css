@@ -1,0 +1,1431 @@
+/*
+ * Placówka Online — dashboard urządzenia SaaS Platinum v3
+ * Warstwa jest izolowana prefiksem pdo-, aby nie zmieniać pozostałych ekranów.
+ */
+
+:root {
+    --pdo-blue: #2563eb;
+    --pdo-blue-dark: #1746b3;
+    --pdo-blue-soft: #eaf2ff;
+    --pdo-green: #137a3f;
+    --pdo-green-soft: #e8f7ee;
+    --pdo-amber: #9a5800;
+    --pdo-amber-soft: #fff4dc;
+    --pdo-red: #b42318;
+    --pdo-red-soft: #ffebe9;
+    --pdo-slate: #526276;
+    --pdo-slate-soft: #eef2f7;
+    --pdo-border: #dbe4f0;
+    --pdo-border-strong: #c9d6e7;
+    --pdo-text: #17233a;
+    --pdo-muted: #5f6f84;
+    --pdo-card: #ffffff;
+    --pdo-radius: 20px;
+    --pdo-shadow: 0 14px 36px rgba(25, 48, 85, .08);
+}
+
+.pdo-hero,
+.pdo-card,
+.pdo-metric-card,
+.pdo-recommendations,
+.pdo-section-nav {
+    border: 1px solid var(--pdo-border);
+    background: var(--pdo-card);
+    box-shadow: var(--pdo-shadow);
+}
+
+.pdo-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(310px, .65fr);
+    gap: 28px;
+    margin-bottom: 18px;
+    padding: clamp(22px, 4vw, 38px);
+    overflow: hidden;
+    border-radius: 28px;
+    isolation: isolate;
+}
+
+.pdo-hero::before,
+.pdo-hero::after {
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+    content: "";
+    pointer-events: none;
+}
+
+.pdo-hero::before {
+    top: -180px;
+    right: -120px;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(37, 99, 235, .16), rgba(37, 99, 235, 0) 68%);
+}
+
+.pdo-hero::after {
+    bottom: -210px;
+    left: 28%;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, rgba(14, 165, 233, .1), rgba(14, 165, 233, 0) 70%);
+}
+
+.pdo-hero--warning {
+    border-top: 4px solid var(--pdo-amber);
+}
+
+.pdo-hero--critical {
+    border-top: 4px solid var(--pdo-red);
+}
+
+.pdo-hero--healthy {
+    border-top: 4px solid var(--pdo-green);
+}
+
+.pdo-hero--unknown {
+    border-top: 4px solid var(--pdo-slate);
+}
+
+.pdo-hero__primary {
+    min-width: 0;
+}
+
+.pdo-hero__status-line,
+.pdo-hero__heading,
+.pdo-confidence__heading,
+.pdo-card__header,
+.pdo-section-heading,
+.pdo-metric-card__header,
+.pdo-metric-card__main,
+.pdo-factor__heading,
+.pdo-subsection-heading,
+.pdo-smart-disk > header,
+.pdo-service > header,
+.pdo-history-card > header,
+.pdo-incident__content > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.pdo-hero__status-line {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.pdo-hero__updated {
+    color: var(--pdo-muted);
+    font-size: .9rem;
+    font-weight: 700;
+}
+
+.pdo-hero__heading {
+    align-items: flex-start;
+}
+
+.pdo-hero__heading > div:first-child {
+    max-width: 720px;
+}
+
+.pdo-hero__heading h2,
+.pdo-section-heading h2,
+.pdo-card__header h2,
+.pdo-recommendations h2 {
+    margin: 0;
+    color: #13264a;
+    letter-spacing: -.025em;
+}
+
+.pdo-hero__heading h2 {
+    font-size: clamp(1.6rem, 3vw, 2.35rem);
+    line-height: 1.15;
+}
+
+.pdo-hero__heading p:not(.pdo-kicker) {
+    max-width: 720px;
+    margin: 10px 0 0;
+    color: var(--pdo-muted);
+    font-size: 1rem;
+}
+
+.pdo-kicker {
+    margin: 0 0 5px;
+    color: var(--pdo-blue-dark);
+    font-size: .73rem;
+    font-weight: 900;
+    letter-spacing: .105em;
+    text-transform: uppercase;
+}
+
+.pdo-confidence {
+    max-width: 560px;
+    margin-top: 22px;
+}
+
+.pdo-confidence__heading {
+    margin-bottom: 8px;
+    color: var(--pdo-muted);
+    font-size: .88rem;
+}
+
+.pdo-confidence__heading strong {
+    color: var(--pdo-text);
+}
+
+.pdo-confidence progress,
+.pdo-factor progress,
+.pdo-disk progress,
+.pdo-smart-disk progress {
+    width: 100%;
+    height: 9px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 999px;
+    background: #e7edf5;
+    color: var(--pdo-blue);
+    accent-color: var(--pdo-blue);
+}
+
+.pdo-confidence progress::-webkit-progress-bar,
+.pdo-factor progress::-webkit-progress-bar,
+.pdo-disk progress::-webkit-progress-bar,
+.pdo-smart-disk progress::-webkit-progress-bar {
+    border-radius: 999px;
+    background: #e7edf5;
+}
+
+.pdo-confidence progress::-webkit-progress-value,
+.pdo-factor progress::-webkit-progress-value,
+.pdo-disk progress::-webkit-progress-value,
+.pdo-smart-disk progress::-webkit-progress-value {
+    border-radius: 999px;
+    background: currentColor;
+}
+
+.pdo-confidence progress::-moz-progress-bar,
+.pdo-factor progress::-moz-progress-bar,
+.pdo-disk progress::-moz-progress-bar,
+.pdo-smart-disk progress::-moz-progress-bar {
+    border-radius: 999px;
+    background: currentColor;
+}
+
+.pdo-hero__facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+    gap: 10px;
+    margin: 0;
+}
+
+.pdo-hero__facts > div {
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid rgba(203, 216, 234, .92);
+    border-radius: 15px;
+    background: rgba(248, 251, 255, .88);
+}
+
+.pdo-hero__facts dt,
+.pdo-detail-list dt,
+.pdo-system-card dt,
+.pdo-disk dt,
+.pdo-history-card dt,
+.pdo-incident dt {
+    color: var(--pdo-muted);
+    font-size: .76rem;
+    font-weight: 760;
+}
+
+.pdo-hero__facts dd,
+.pdo-detail-list dd,
+.pdo-system-card dd,
+.pdo-disk dd,
+.pdo-history-card dd,
+.pdo-incident dd {
+    min-width: 0;
+    margin: 4px 0 0;
+    overflow-wrap: anywhere;
+    color: var(--pdo-text);
+    font-weight: 800;
+}
+
+.pdo-hero__facts code,
+.pdo-network-grid code,
+.pdo-service code {
+    padding: 2px 6px;
+    border-radius: 6px;
+    color: #133c7a;
+    background: #edf4ff;
+    font-size: .84em;
+    overflow-wrap: anywhere;
+}
+
+.pdo-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    width: fit-content;
+    max-width: 100%;
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 900;
+    line-height: 1.25;
+}
+
+.pdo-status-badge--healthy {
+    border-color: #a9dfbc;
+    color: #0c6031;
+    background: var(--pdo-green-soft);
+}
+
+.pdo-status-badge--warning {
+    border-color: #efd19a;
+    color: #754000;
+    background: var(--pdo-amber-soft);
+}
+
+.pdo-status-badge--critical {
+    border-color: #efb5b0;
+    color: #8d1c14;
+    background: var(--pdo-red-soft);
+}
+
+.pdo-status-badge--unknown {
+    border-color: #cbd5e1;
+    color: #44546a;
+    background: var(--pdo-slate-soft);
+}
+
+.pdo-status-dot,
+.pdo-check__icon,
+.pdo-incident__marker {
+    flex: 0 0 auto;
+    border-radius: 50%;
+}
+
+.pdo-status-dot {
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+}
+
+.pdo-section-nav {
+    position: sticky;
+    top: 82px;
+    z-index: 40;
+    display: flex;
+    gap: 7px;
+    margin-bottom: 26px;
+    padding: 9px;
+    overflow-x: auto;
+    border-radius: 16px;
+    scrollbar-width: thin;
+}
+
+.pdo-section-nav a {
+    flex: 0 0 auto;
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 10px;
+    color: #33445d;
+    font-size: .78rem;
+    font-weight: 850;
+    text-decoration: none;
+}
+
+.pdo-section-nav a:hover,
+.pdo-section-nav a:focus-visible {
+    color: #123c84;
+    background: var(--pdo-blue-soft);
+}
+
+.pdo-section,
+.pdo-card,
+.pdo-recommendations {
+    scroll-margin-top: 145px;
+}
+
+.pdo-section {
+    margin-bottom: 26px;
+}
+
+.pdo-section-heading,
+.pdo-card__header {
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.pdo-section-heading > p,
+.pdo-card__meta {
+    max-width: 540px;
+    margin: 2px 0 0;
+    color: var(--pdo-muted);
+    font-size: .82rem;
+    text-align: right;
+}
+
+.pdo-metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.pdo-metric-card {
+    min-width: 0;
+    padding: 18px;
+    border-radius: var(--pdo-radius);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.pdo-metric-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--pdo-border-strong);
+    box-shadow: 0 18px 40px rgba(25, 48, 85, .11);
+}
+
+.pdo-metric-card--healthy {
+    border-top: 3px solid var(--pdo-green);
+}
+
+.pdo-metric-card--warning {
+    border-top: 3px solid var(--pdo-amber);
+}
+
+.pdo-metric-card--critical {
+    border-top: 3px solid var(--pdo-red);
+}
+
+.pdo-metric-card--unknown {
+    border-top: 3px solid var(--pdo-slate);
+}
+
+.pdo-metric-card__header {
+    justify-content: flex-start;
+}
+
+.pdo-metric-card__icon,
+.pdo-system-card__icon,
+.pdo-recommendations__icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    border-radius: 13px;
+    color: var(--pdo-blue-dark);
+    background: var(--pdo-blue-soft);
+}
+
+.pdo-metric-card__icon {
+    width: 42px;
+    height: 42px;
+}
+
+.pdo-metric-card__header p {
+    margin: 0;
+    color: var(--pdo-text);
+    font-size: .9rem;
+    font-weight: 900;
+}
+
+.pdo-state-text {
+    display: block;
+    margin-top: 2px;
+    font-size: .72rem;
+    font-weight: 800;
+}
+
+.pdo-state-text--healthy {
+    color: var(--pdo-green);
+}
+
+.pdo-state-text--warning {
+    color: var(--pdo-amber);
+}
+
+.pdo-state-text--critical {
+    color: var(--pdo-red);
+}
+
+.pdo-state-text--unknown {
+    color: var(--pdo-slate);
+}
+
+.pdo-metric-card__main {
+    min-height: 104px;
+    margin: 14px 0 4px;
+}
+
+.pdo-metric-card__value {
+    color: #13264a;
+    font-size: clamp(1.7rem, 3vw, 2.25rem);
+    letter-spacing: -.04em;
+}
+
+.pdo-metric-card__trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 8px;
+    border-radius: 999px;
+    font-size: .7rem;
+    font-weight: 850;
+    white-space: nowrap;
+}
+
+.pdo-trend--good {
+    color: #0c6031;
+    background: var(--pdo-green-soft);
+}
+
+.pdo-trend--bad {
+    color: #8d1c14;
+    background: var(--pdo-red-soft);
+}
+
+.pdo-trend--neutral {
+    color: #44546a;
+    background: var(--pdo-slate-soft);
+}
+
+.pdo-metric-card__note {
+    min-height: 38px;
+    margin: 9px 0 0;
+    color: var(--pdo-muted);
+    font-size: .76rem;
+}
+
+.pdo-gauge {
+    --pdo-gauge-color: var(--pdo-slate);
+    position: relative;
+    width: 136px;
+    height: 136px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+}
+
+.pdo-gauge--compact {
+    width: 94px;
+    height: 94px;
+}
+
+.pdo-gauge--healthy {
+    --pdo-gauge-color: var(--pdo-green);
+}
+
+.pdo-gauge--warning {
+    --pdo-gauge-color: var(--pdo-amber);
+}
+
+.pdo-gauge--critical {
+    --pdo-gauge-color: var(--pdo-red);
+}
+
+.pdo-gauge__svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.pdo-gauge__track,
+.pdo-gauge__value {
+    fill: none;
+    stroke-width: 9;
+}
+
+.pdo-gauge__track {
+    stroke: #e4ebf4;
+}
+
+.pdo-gauge__value {
+    stroke: var(--pdo-gauge-color);
+    stroke-linecap: round;
+    transition: stroke-dashoffset .55s ease;
+}
+
+.pdo-gauge__content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    color: var(--pdo-text);
+}
+
+.pdo-gauge__content strong {
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: -.06em;
+}
+
+.pdo-gauge--compact .pdo-gauge__content strong {
+    font-size: 1.4rem;
+}
+
+.pdo-gauge__content small {
+    align-self: center;
+    margin-top: 5px;
+    color: var(--pdo-muted);
+    font-size: .68rem;
+    font-weight: 800;
+}
+
+.pdo-sparkline {
+    width: 100%;
+    height: 38px;
+    overflow: visible;
+}
+
+.pdo-sparkline__line {
+    fill: none;
+    stroke: var(--pdo-blue);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+
+.pdo-sparkline__fill {
+    fill: rgba(37, 99, 235, .1);
+}
+
+.pdo-sparkline--healthy .pdo-sparkline__line {
+    stroke: var(--pdo-green);
+}
+
+.pdo-sparkline--healthy .pdo-sparkline__fill {
+    fill: rgba(19, 122, 63, .09);
+}
+
+.pdo-sparkline--warning .pdo-sparkline__line {
+    stroke: var(--pdo-amber);
+}
+
+.pdo-sparkline--warning .pdo-sparkline__fill {
+    fill: rgba(154, 88, 0, .09);
+}
+
+.pdo-sparkline--critical .pdo-sparkline__line {
+    stroke: var(--pdo-red);
+}
+
+.pdo-sparkline--critical .pdo-sparkline__fill {
+    fill: rgba(180, 35, 24, .09);
+}
+
+.pdo-two-column {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.pdo-card {
+    min-width: 0;
+    margin-bottom: 18px;
+    padding: clamp(18px, 3vw, 26px);
+    border-radius: var(--pdo-radius);
+}
+
+.pdo-two-column .pdo-card {
+    margin-bottom: 0;
+}
+
+.pdo-card__header {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e6edf5;
+}
+
+.pdo-connectivity-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.pdo-check {
+    display: flex;
+    gap: 11px;
+    min-width: 0;
+    padding: 13px;
+    border: 1px solid var(--pdo-border);
+    border-radius: 14px;
+    background: #fbfdff;
+}
+
+.pdo-check__icon {
+    width: 11px;
+    height: 11px;
+    margin-top: 5px;
+    box-shadow: 0 0 0 4px rgba(82, 98, 118, .1);
+    background: var(--pdo-slate);
+}
+
+.pdo-check--healthy .pdo-check__icon {
+    box-shadow: 0 0 0 4px rgba(19, 122, 63, .12);
+    background: var(--pdo-green);
+}
+
+.pdo-check--warning .pdo-check__icon {
+    box-shadow: 0 0 0 4px rgba(154, 88, 0, .12);
+    background: var(--pdo-amber);
+}
+
+.pdo-check--critical .pdo-check__icon {
+    box-shadow: 0 0 0 4px rgba(180, 35, 24, .12);
+    background: var(--pdo-red);
+}
+
+.pdo-check h3,
+.pdo-factor h3,
+.pdo-system-card h3,
+.pdo-smart-disk h3,
+.pdo-service h3,
+.pdo-network-grid h3,
+.pdo-incident h3 {
+    margin: 0;
+    color: var(--pdo-text);
+}
+
+.pdo-check h3 {
+    font-size: .82rem;
+}
+
+.pdo-check strong {
+    display: block;
+    margin-top: 2px;
+    color: var(--pdo-text);
+    font-size: 1rem;
+}
+
+.pdo-check p {
+    margin: 2px 0 0;
+    color: var(--pdo-muted);
+    font-size: .72rem;
+}
+
+.pdo-latency-summary,
+.pdo-inline-summary,
+.pdo-smart-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.pdo-latency-summary {
+    margin: 15px 0 5px;
+}
+
+.pdo-latency-summary > div,
+.pdo-inline-summary > span,
+.pdo-smart-metrics > div {
+    padding: 9px 11px;
+    border: 1px solid var(--pdo-border);
+    border-radius: 12px;
+    background: #f8fbff;
+}
+
+.pdo-latency-summary > div {
+    flex: 1 1 120px;
+}
+
+.pdo-latency-summary span,
+.pdo-smart-metrics span {
+    display: block;
+    color: var(--pdo-muted);
+    font-size: .68rem;
+    font-weight: 750;
+}
+
+.pdo-latency-summary strong,
+.pdo-smart-metrics strong {
+    display: block;
+    margin-top: 2px;
+    color: var(--pdo-text);
+    font-size: .95rem;
+}
+
+.pdo-latency-chart {
+    margin-top: 10px;
+}
+
+.pdo-factor-list {
+    display: grid;
+    gap: 9px;
+}
+
+.pdo-factor {
+    padding: 11px 12px;
+    border: 1px solid var(--pdo-border);
+    border-left-width: 4px;
+    border-radius: 12px;
+    background: #fbfdff;
+}
+
+.pdo-factor--healthy {
+    border-left-color: var(--pdo-green);
+    color: var(--pdo-green);
+}
+
+.pdo-factor--warning {
+    border-left-color: var(--pdo-amber);
+    color: var(--pdo-amber);
+}
+
+.pdo-factor--critical {
+    border-left-color: var(--pdo-red);
+    color: var(--pdo-red);
+}
+
+.pdo-factor--unknown {
+    border-left-color: var(--pdo-slate);
+    color: var(--pdo-slate);
+}
+
+.pdo-factor__heading {
+    align-items: flex-start;
+}
+
+.pdo-factor h3 {
+    font-size: .82rem;
+}
+
+.pdo-factor__heading p,
+.pdo-factor__description {
+    margin: 2px 0 0;
+    color: var(--pdo-muted);
+    font-size: .7rem;
+}
+
+.pdo-factor__heading > strong {
+    color: var(--pdo-text);
+    font-size: .82rem;
+}
+
+.pdo-factor progress {
+    height: 6px;
+    margin-top: 8px;
+    color: currentColor;
+}
+
+.pdo-factor__description {
+    margin-top: 7px;
+}
+
+.pdo-system-overview,
+.pdo-disk-grid,
+.pdo-smart-grid,
+.pdo-service-grid,
+.pdo-network-grid {
+    display: grid;
+    gap: 13px;
+}
+
+.pdo-system-overview {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pdo-system-card,
+.pdo-disk,
+.pdo-smart-disk,
+.pdo-service,
+.pdo-network-grid > article {
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid var(--pdo-border);
+    border-radius: 16px;
+    background: #fbfdff;
+}
+
+.pdo-system-card__icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 11px;
+}
+
+.pdo-system-card h3 {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.pdo-system-card dl,
+.pdo-disk dl,
+.pdo-detail-list,
+.pdo-history-card dl,
+.pdo-incident dl {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+}
+
+.pdo-system-card dl > div,
+.pdo-disk dl > div,
+.pdo-detail-list > div,
+.pdo-history-card dl > div,
+.pdo-incident dl > div {
+    min-width: 0;
+    padding-top: 7px;
+    border-top: 1px solid #e5edf6;
+}
+
+.pdo-system-card dl > div:first-child,
+.pdo-disk dl > div:first-child,
+.pdo-detail-list > div:first-child,
+.pdo-history-card dl > div:first-child,
+.pdo-incident dl > div:first-child {
+    padding-top: 0;
+    border-top: 0;
+}
+
+.pdo-subsection-heading {
+    margin: 23px 0 12px;
+}
+
+.pdo-subsection-heading h3 {
+    margin: 0;
+    color: var(--pdo-text);
+    font-size: 1.05rem;
+}
+
+.pdo-subsection-heading span {
+    color: var(--pdo-muted);
+    font-size: .78rem;
+    font-weight: 750;
+}
+
+.pdo-disk-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pdo-disk {
+    border-top: 3px solid var(--pdo-slate);
+}
+
+.pdo-disk--healthy {
+    border-top-color: var(--pdo-green);
+    color: var(--pdo-green);
+}
+
+.pdo-disk--warning {
+    border-top-color: var(--pdo-amber);
+    color: var(--pdo-amber);
+}
+
+.pdo-disk--critical {
+    border-top-color: var(--pdo-red);
+    color: var(--pdo-red);
+}
+
+.pdo-disk header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.pdo-disk h4 {
+    margin: 0;
+    color: var(--pdo-text);
+    font-size: 1rem;
+}
+
+.pdo-disk header p {
+    margin: 2px 0 0;
+    color: var(--pdo-muted);
+    font-size: .74rem;
+}
+
+.pdo-disk header > strong {
+    color: var(--pdo-text);
+}
+
+.pdo-disk progress,
+.pdo-smart-disk progress {
+    height: 7px;
+    margin: 12px 0;
+    color: currentColor;
+}
+
+.pdo-inline-summary {
+    justify-content: flex-end;
+}
+
+.pdo-inline-summary > span {
+    color: var(--pdo-muted);
+    font-size: .72rem;
+}
+
+.pdo-inline-summary strong {
+    color: var(--pdo-text);
+    font-size: .9rem;
+}
+
+.pdo-smart-grid,
+.pdo-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pdo-smart-disk,
+.pdo-service {
+    border-top: 3px solid var(--pdo-slate);
+}
+
+.pdo-smart-disk--healthy,
+.pdo-service--healthy {
+    border-top-color: var(--pdo-green);
+    color: var(--pdo-green);
+}
+
+.pdo-smart-disk--warning,
+.pdo-service--warning {
+    border-top-color: var(--pdo-amber);
+    color: var(--pdo-amber);
+}
+
+.pdo-smart-disk--critical,
+.pdo-service--critical {
+    border-top-color: var(--pdo-red);
+    color: var(--pdo-red);
+}
+
+.pdo-smart-disk > header,
+.pdo-service > header {
+    align-items: flex-start;
+    margin-bottom: 13px;
+}
+
+.pdo-smart-disk h3,
+.pdo-service h3 {
+    font-size: 1rem;
+}
+
+.pdo-smart-disk header p {
+    margin: 3px 0 0;
+    color: var(--pdo-muted);
+    font-size: .75rem;
+}
+
+.pdo-smart-metrics {
+    margin-bottom: 4px;
+}
+
+.pdo-smart-metrics > div {
+    flex: 1 1 110px;
+}
+
+.pdo-detail-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pdo-card-message {
+    margin: 13px 0 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    color: var(--pdo-muted);
+    background: #f0f5fb;
+    font-size: .75rem;
+}
+
+.pdo-disclaimer,
+.pdo-footnote {
+    color: var(--pdo-muted);
+    font-size: .76rem;
+}
+
+.pdo-disclaimer {
+    margin: 17px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid #e6edf5;
+}
+
+.pdo-network-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pdo-network-grid h3 {
+    margin-bottom: 12px;
+    font-size: 1rem;
+}
+
+.pdo-recommendations {
+    display: flex;
+    gap: 17px;
+    margin-bottom: 18px;
+    padding: clamp(18px, 3vw, 25px);
+    border-left: 5px solid var(--pdo-amber);
+    border-radius: var(--pdo-radius);
+    background: linear-gradient(135deg, #fffaf0, #ffffff 68%);
+}
+
+.pdo-recommendations__icon {
+    width: 48px;
+    height: 48px;
+    color: #7a4400;
+    background: var(--pdo-amber-soft);
+}
+
+.pdo-recommendations ol {
+    margin: 12px 0 0;
+    padding-left: 1.25rem;
+}
+
+.pdo-recommendations li + li {
+    margin-top: 7px;
+}
+
+.pdo-empty {
+    padding: 20px;
+    border: 1px dashed #b9c8dc;
+    border-radius: 14px;
+    color: var(--pdo-muted);
+    background: #f8fbff;
+    text-align: center;
+}
+
+.pdo-empty--success {
+    border-color: #9fd7b3;
+    color: #0c6031;
+    background: var(--pdo-green-soft);
+}
+
+.pdo-history-desktop {
+    overflow-x: auto;
+    border: 1px solid var(--pdo-border);
+    border-radius: 14px;
+}
+
+.pdo-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .78rem;
+}
+
+.pdo-table th,
+.pdo-table td {
+    padding: 11px 12px;
+    border-bottom: 1px solid #e5edf5;
+    text-align: left;
+    vertical-align: top;
+}
+
+.pdo-table th {
+    color: #3e4e65;
+    background: #f3f7fc;
+    font-size: .72rem;
+    letter-spacing: .02em;
+}
+
+.pdo-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.pdo-table tbody tr:hover {
+    background: #f9fbfe;
+}
+
+.pdo-mini-state {
+    display: inline-flex;
+    padding: 3px 7px;
+    border-radius: 999px;
+    font-size: .68rem;
+    font-weight: 850;
+}
+
+.pdo-mini-state--healthy {
+    color: #0c6031;
+    background: var(--pdo-green-soft);
+}
+
+.pdo-mini-state--critical {
+    color: #8d1c14;
+    background: var(--pdo-red-soft);
+}
+
+.pdo-mini-state--unknown {
+    color: #44546a;
+    background: var(--pdo-slate-soft);
+}
+
+.pdo-history-mobile {
+    display: none;
+}
+
+.pdo-history-card {
+    padding: 14px;
+    border: 1px solid var(--pdo-border);
+    border-left-width: 4px;
+    border-radius: 14px;
+    background: #fbfdff;
+}
+
+.pdo-history-card--healthy {
+    border-left-color: var(--pdo-green);
+}
+
+.pdo-history-card--critical {
+    border-left-color: var(--pdo-red);
+}
+
+.pdo-history-card--unknown {
+    border-left-color: var(--pdo-slate);
+}
+
+.pdo-history-card > header {
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.pdo-history-card > header > strong {
+    color: var(--pdo-text);
+    font-size: .82rem;
+}
+
+.pdo-history-card dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pdo-incident-list {
+    display: grid;
+    gap: 10px;
+}
+
+.pdo-incident {
+    display: flex;
+    gap: 13px;
+    padding: 15px;
+    border: 1px solid var(--pdo-border);
+    border-radius: 15px;
+    background: #fbfdff;
+}
+
+.pdo-incident__marker {
+    width: 12px;
+    height: 12px;
+    margin-top: 6px;
+    box-shadow: 0 0 0 5px rgba(82, 98, 118, .1);
+    background: var(--pdo-slate);
+}
+
+.pdo-incident--critical .pdo-incident__marker {
+    box-shadow: 0 0 0 5px rgba(180, 35, 24, .1);
+    background: var(--pdo-red);
+}
+
+.pdo-incident--healthy .pdo-incident__marker {
+    box-shadow: 0 0 0 5px rgba(19, 122, 63, .1);
+    background: var(--pdo-green);
+}
+
+.pdo-incident__content {
+    min-width: 0;
+    flex: 1;
+}
+
+.pdo-incident__content > header {
+    align-items: flex-start;
+}
+
+.pdo-incident h3 {
+    font-size: .95rem;
+}
+
+.pdo-incident header p {
+    margin: 4px 0 0;
+    color: var(--pdo-muted);
+    font-size: .78rem;
+}
+
+.pdo-incident dl {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 12px;
+}
+
+.pdo-footnote {
+    margin: 4px 0 0;
+    padding: 0 4px;
+}
+
+@media (max-width: 1250px) {
+    .pdo-metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pdo-network-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1050px) {
+    .pdo-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .pdo-hero__facts {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .pdo-two-column {
+        grid-template-columns: 1fr;
+    }
+
+    .pdo-two-column .pdo-card {
+        margin-bottom: 0;
+    }
+
+    .pdo-system-overview,
+    .pdo-disk-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 800px) {
+    .pdo-section-nav {
+        top: 73px;
+        margin-inline: -2px;
+        border-radius: 13px;
+    }
+
+    .pdo-hero__heading {
+        align-items: center;
+    }
+
+    .pdo-hero__facts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pdo-system-overview,
+    .pdo-disk-grid,
+    .pdo-smart-grid,
+    .pdo-service-grid,
+    .pdo-network-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pdo-card__header,
+    .pdo-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .pdo-section-heading > p,
+    .pdo-card__meta {
+        text-align: left;
+    }
+
+    .pdo-inline-summary {
+        justify-content: flex-start;
+    }
+
+    .pdo-history-desktop {
+        display: none;
+    }
+
+    .pdo-history-mobile {
+        display: grid;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 620px) {
+    .pdo-hero {
+        padding: 19px;
+        border-radius: 20px;
+    }
+
+    .pdo-hero__heading {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+    }
+
+    .pdo-hero__heading .pdo-gauge {
+        align-self: center;
+    }
+
+    .pdo-hero__facts,
+    .pdo-metric-grid,
+    .pdo-connectivity-grid,
+    .pdo-detail-list,
+    .pdo-history-card dl,
+    .pdo-incident dl {
+        grid-template-columns: 1fr;
+    }
+
+    .pdo-metric-card__main {
+        min-height: auto;
+    }
+
+    .pdo-card,
+    .pdo-recommendations {
+        padding: 16px;
+        border-radius: 17px;
+    }
+
+    .pdo-recommendations {
+        flex-direction: column;
+    }
+
+    .pdo-smart-disk > header,
+    .pdo-service > header,
+    .pdo-history-card > header,
+    .pdo-incident__content > header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .pdo-incident {
+        padding: 13px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pdo-metric-card,
+    .pdo-gauge__value {
+        transition: none;
+    }
+
+    .pdo-metric-card:hover {
+        transform: none;
+    }
+}
+
+@media print {
+    .pdo-section-nav,
+    .po-topbar,
+    .po-sidebar,
+    .po-mobile-nav,
+    .po-page-actions {
+        display: none !important;
+    }
+
+    .po-main-column {
+        margin-left: 0 !important;
+    }
+
+    .po-main {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .pdo-hero,
+    .pdo-card,
+    .pdo-metric-card,
+    .pdo-recommendations {
+        break-inside: avoid;
+        box-shadow: none;
+    }
+
+    .pdo-history-desktop {
+        display: block;
+    }
+
+    .pdo-history-mobile {
+        display: none;
+    }
+}

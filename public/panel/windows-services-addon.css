@@ -1,0 +1,11 @@
+/* Placówka Online — monitoring usług Windows */
+.windows-services-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;padding:1rem;border-bottom:1px solid var(--panel-border,#d7dde5)}
+.windows-services-summary>div{display:grid;gap:.2rem}.windows-services-summary strong{font-size:1.5rem;line-height:1}.windows-services-summary span{color:var(--panel-muted,#52606d)}
+.windows-services-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;padding:1rem}
+.windows-service{padding:1rem;border:1px solid var(--panel-border,#d7dde5);border-left-width:.35rem;border-radius:.7rem;background:#fff}
+.windows-service--healthy{border-left-color:#177245}.windows-service--warning{border-left-color:#9a6700}.windows-service--failed{border-left-color:#9b1c1c}
+.windows-service__heading{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}.windows-service__heading h3{margin:0;font-size:1.05rem}
+.windows-service__details{display:grid;gap:.65rem;margin:1rem 0 0}.windows-service__details>div{display:grid;grid-template-columns:minmax(8rem,.8fr) minmax(0,1.2fr);gap:.75rem}
+.windows-service__details dt{color:var(--panel-muted,#52606d)}.windows-service__details dd{margin:0;overflow-wrap:anywhere}
+.windows-service__message{margin:1rem 0 0;padding:.75rem;border-radius:.5rem;background:#fff4e5}.windows-service--failed .windows-service__message{background:#fff1f1;color:#681313}
+@media(max-width:800px){.windows-services-summary,.windows-services-grid{grid-template-columns:1fr}.windows-service__heading{align-items:stretch;flex-direction:column}.windows-service__details>div{grid-template-columns:1fr;gap:.15rem}}

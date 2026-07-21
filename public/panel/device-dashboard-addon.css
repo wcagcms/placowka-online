@@ -1,0 +1,12 @@
+/* Dashboard urządzenia — dopisz na końcu public/panel/panel.css */
+.device-section { margin-bottom: 1.25rem; }
+.device-section .card-header { align-items: flex-start; }
+.section-kicker { margin: 0 0 .25rem; font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted, #52606d); }
+.device-info-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.device-info-item { min-width: 0; padding: 1rem; border: 1px solid #d7dde5; border-radius: .75rem; background: #f8fafc; }
+.device-info-item span { display: block; margin-bottom: .35rem; color: #52606d; font-size: .9rem; }
+.device-info-item strong { display: block; overflow-wrap: anywhere; font-size: 1rem; color: #1f2933; }
+.device-info-item small { display: block; margin-top: .3rem; color: #52606d; }
+.device-info-wide { grid-column: span 2; }
+@media (max-width: 1000px) { .device-info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 650px) { .device-info-grid { grid-template-columns: 1fr; } .device-info-wide { grid-column: auto; } }

@@ -1,0 +1,290 @@
+/* Centrum monitoringu — dopisz na końcu public/panel/panel.css */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.monitoring-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #fff;
+    color: var(--muted);
+}
+
+.monitoring-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.monitoring-toggle input {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.monitoring-stats {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.monitoring-stat {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-top: 5px solid #64748b;
+    border-radius: 16px;
+    background: #fff;
+}
+
+.monitoring-stat span,
+.monitoring-stat strong {
+    display: block;
+}
+
+.monitoring-stat span {
+    color: var(--muted);
+    font-weight: 700;
+}
+
+.monitoring-stat strong {
+    margin-top: 5px;
+    font-size: 2rem;
+}
+
+.monitoring-stat-online { border-top-color: #177245; }
+.monitoring-stat-warning { border-top-color: #9a6700; }
+.monitoring-stat-offline { border-top-color: #9b1c1c; }
+
+.monitoring-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 24px 0 12px;
+}
+
+.monitoring-section-heading h2,
+.monitoring-section-heading p {
+    margin: 0;
+}
+
+.monitoring-incidents {
+    padding: 2px 0 8px;
+}
+
+.monitoring-incident-list {
+    display: grid;
+    gap: 10px;
+}
+
+.monitoring-incident {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 1px solid #e5b4b4;
+    border-left: 6px solid #9b1c1c;
+    border-radius: 14px;
+    background: #fff7f7;
+}
+
+.monitoring-incident strong,
+.monitoring-incident span {
+    display: block;
+}
+
+.monitoring-incident span {
+    margin-top: 2px;
+    color: var(--muted);
+}
+
+.monitoring-facility-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.monitoring-facility {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-top: 6px solid #64748b;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 7px 22px rgba(15, 23, 42, .06);
+}
+
+.monitoring-facility-online { border-top-color: #177245; }
+.monitoring-facility-warning { border-top-color: #9a6700; }
+.monitoring-facility-offline { border-top-color: #9b1c1c; }
+.monitoring-facility-inactive { border-top-color: #64748b; opacity: .82; }
+.monitoring-facility-unknown { border-top-color: #475569; }
+
+.monitoring-facility-header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.monitoring-facility-header h3,
+.monitoring-facility-header p {
+    margin: 0;
+}
+
+.monitoring-facility-header p {
+    margin-top: 2px;
+    color: var(--muted);
+}
+
+.monitoring-status-symbol {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    font-size: 1.35rem;
+    font-weight: 900;
+}
+
+.monitoring-facility-online .monitoring-status-symbol,
+.monitoring-facility-online .monitoring-status-label { color: #0f653b; }
+.monitoring-facility-warning .monitoring-status-symbol,
+.monitoring-facility-warning .monitoring-status-label { color: #7a5200; }
+.monitoring-facility-offline .monitoring-status-symbol,
+.monitoring-facility-offline .monitoring-status-label { color: #8a1111; }
+
+.monitoring-status-label {
+    font-weight: 800;
+}
+
+.monitoring-facility-summary {
+    min-height: 3.4em;
+    margin: 0;
+    padding: 14px 16px;
+    color: var(--muted);
+}
+
+.monitoring-device-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0 16px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.monitoring-device-summary div {
+    padding: 10px 6px;
+    text-align: center;
+}
+
+.monitoring-device-summary div + div {
+    border-left: 1px solid var(--border);
+}
+
+.monitoring-device-summary dt {
+    color: var(--muted);
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.monitoring-device-summary dd {
+    margin: 3px 0 0;
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+.monitoring-device-list {
+    margin: 0 16px 14px;
+    border-top: 1px solid var(--border);
+}
+
+.monitoring-device-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.monitoring-device-row strong,
+.monitoring-device-row span {
+    display: block;
+}
+
+.monitoring-device-row div > span {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: .85rem;
+}
+
+.monitoring-facility-actions {
+    display: flex;
+    gap: 8px;
+    padding: 14px 16px;
+    border-top: 1px solid var(--border);
+    background: #f8fafc;
+}
+
+@media (max-width: 1120px) {
+    .monitoring-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .monitoring-facility-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .monitoring-toolbar,
+    .monitoring-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .monitoring-stats,
+    .monitoring-facility-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .monitoring-incident {
+        grid-template-columns: 1fr;
+    }
+
+    .monitoring-device-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .monitoring-device-summary div:nth-child(3) {
+        border-left: 0;
+        border-top: 1px solid var(--border);
+    }
+
+    .monitoring-device-summary div:nth-child(4) {
+        border-top: 1px solid var(--border);
+    }
+}

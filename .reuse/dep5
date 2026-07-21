@@ -1,0 +1,13 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Placówka Online
+Upstream-Contact: Adam Trojanowski <it@it-serwis.net>
+Source: https://github.com/atrojanowski44/placowka-online
+
+Files: *
+Copyright: 2026 Adam Trojanowski
+License: AGPL-3.0-or-later
+
+Files: artisan bootstrap/* config/* database/factories/* database/migrations/0001_* resources/js/bootstrap.js vite.config.js
+Copyright: Taylor Otwell and Laravel contributors
+License: MIT
+Comment: Files derived from the Laravel application skeleton remain available under the MIT license.
