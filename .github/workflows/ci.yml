@@ -1,48 +1,83 @@
 name: CI
+
 on:
   push:
   pull_request:
+
 permissions:
   contents: read
+
 jobs:
   php:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install ripgrep
-        run: sudo apt-get update && sudo apt-get install -y ripgrep
+      - name: Test repository safety audit
+        run: bash scripts/test-public-repo-audit.sh
 
-      - name: Public repo audit
+      - name: Repository safety audit
         run: bash scripts/public-repo-audit.sh
 
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
           coverage: none
-      - run: composer install --no-interaction --prefer-dist
-      - run: cp .env.example .env
-      - run: php artisan key:generate
-      - run: touch database/database.sqlite
-      - run: php artisan migrate --force
-      - run: php scripts/php-syntax-check.php
-      - run: php artisan test
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Prepare Laravel environment
+        run: cp .env.example .env
+
+      - name: Generate application key
+        run: php artisan key:generate
+
+      - name: Prepare SQLite database
+        run: touch database/database.sqlite
+
+      - name: Run migrations
+        run: php artisan migrate --force
+
+      - name: Check PHP syntax
+        run: php scripts/php-syntax-check.php
+
+      - name: Run PHP tests
+        run: php artisan test
+
   frontend:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install
-      - run: npm run build
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      - name: Build frontend
+        run: npm run build
+
   agent:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-go@v5
         with:
           go-version: '1.26.5'
-      - run: gofmt -w storage/app/agent-template/src/main.go storage/app/agent-installer/src/enroll/main.go
-      - run: git diff --exit-code
-      - run: bash scripts/build-agent-secure.sh "$GITHUB_WORKSPACE"
+
+      - name: Check Go formatting
+        run: |
+          gofmt -w \
+            storage/app/agent-template/src/main.go \
+            storage/app/agent-installer/src/enroll/main.go
+          git diff --exit-code
+
+      - name: Build agent
+        run: bash scripts/build-agent-secure.sh "$GITHUB_WORKSPACE"
