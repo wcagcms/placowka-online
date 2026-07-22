@@ -55,3 +55,8 @@ Thumbs.db
 !/storage/app/agent-installer/src/
 !/storage/app/agent-installer/src/**
 !/storage/**/.gitignore
+".env" 
+"database/database.sqlite" 
+"*.sqlite" 
+".env" 
+"database/database.sqlite" 

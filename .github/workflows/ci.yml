@@ -1,17 +1,21 @@
 name: CI
-
 on:
   push:
   pull_request:
-
 permissions:
   contents: read
-
 jobs:
   php:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install ripgrep
+        run: sudo apt-get update && sudo apt-get install -y ripgrep
+
+      - name: Public repo audit
+        run: bash scripts/public-repo-audit.sh
+
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
@@ -23,8 +27,6 @@ jobs:
       - run: php artisan migrate --force
       - run: php scripts/php-syntax-check.php
       - run: php artisan test
-      - run: bash scripts/public-repo-audit.sh
-
   frontend:
     runs-on: ubuntu-latest
     steps:
@@ -34,7 +36,6 @@ jobs:
           node-version: '22'
       - run: npm install
       - run: npm run build
-
   agent:
     runs-on: ubuntu-latest
     steps:
