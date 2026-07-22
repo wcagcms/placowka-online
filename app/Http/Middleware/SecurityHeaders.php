@@ -20,10 +20,25 @@ class SecurityHeaders
         $response->headers->set('X-Permitted-Cross-Domain-Policies', 'none');
         $response->headers->set('Cross-Origin-Resource-Policy', 'same-origin');
         $response->headers->set('X-Robots-Tag', 'noindex, nofollow, noarchive');
-        $response->headers->set(
-            'Content-Security-Policy',
-            "base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'"
-        );
+       $response->headers->set(
+		'Content-Security-Policy',
+		implode(' ', [
+        "default-src 'self';",
+        "script-src 'self';",
+        "style-src 'self' 'unsafe-inline';",
+        "img-src 'self' data:;",
+        "font-src 'self';",
+        "connect-src 'self';",
+        "frame-src 'none';",
+        "media-src 'none';",
+        "object-src 'none';",
+        "base-uri 'self';",
+        "form-action 'self';",
+        "frame-ancestors 'none';",
+        "manifest-src 'self';",
+        "worker-src 'self';",
+			])
+		);
 
         if ($request->routeIs('panel.login', 'panel.login.store')) {
             $response->headers->set('Cache-Control', 'no-store, private');
