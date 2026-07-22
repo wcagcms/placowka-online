@@ -13,7 +13,7 @@
 ## Instalacja
 
 ```bash
-git clone https://github.com/atrojanowski44/placowka-online.git
+git clone https://github.com/wcagcms/placowka-online.git
 cd placowka-online
 cp .env.example .env
 composer install --no-interaction

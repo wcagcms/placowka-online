@@ -16,4 +16,4 @@ bash scripts/build-agent-installer.sh "$PROJECT_PATH"
 echo
 echo "Gotowe pliki:"
 ls -lah storage/app/agent-template/PlacowkaOnlineAgent*.exe
-ls -lah storage/app/agent-installer/build/PlacowkaOnlineInstaller-BuildInput-1.0.5.zip
+ls -lah storage/app/agent-installer/build/PlacowkaOnlineInstaller-BuildInput-1.0.6.zip

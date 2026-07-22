@@ -25,7 +25,7 @@ import (
 	"unsafe"
 )
 
-const builtInVersion = "exe-1.9.2"
+const builtInVersion = "exe-1.9.3"
 
 var runMode = "console"
 
@@ -1438,10 +1438,11 @@ func testInternet(urls []string, timeout time.Duration) InternetResult {
 		average = &value
 	}
 
-	required := 2
-	if len(urls) < 2 {
-		required = 1
-	}
+	// Jedna poprawna odpowiedź z publicznej sondy potwierdza dostęp
+	// do Internetu. Pozostałe sondy służą do diagnostyki i nie mogą
+	// samodzielnie wywołać fałszywej awarii, np. gdy filtr bezpieczeństwa
+	// blokuje wyłącznie jeden adres testowy.
+	required := 1
 
 	return InternetResult{
 		InternetOK:   success >= required,
@@ -1930,7 +1931,7 @@ func validateConfig(c Config) error {
 		}
 	}
 	for _, testURL := range c.TestURLs {
-		if err := validateHTTPSURL("test_urls", testURL); err != nil {
+		if err := validateProbeURL("test_urls", testURL); err != nil {
 			return err
 		}
 	}
@@ -1944,6 +1945,32 @@ func validateHTTPSURL(field, raw string) error {
 		return fmt.Errorf("%s must be a valid HTTPS URL without embedded credentials", field)
 	}
 	return nil
+}
+
+func validateProbeURL(field, raw string) error {
+	parsed, err := url.Parse(strings.TrimSpace(raw))
+	if err != nil || parsed.Host == "" || parsed.User != nil {
+		return fmt.Errorf("%s must be a valid HTTP or HTTPS URL without embedded credentials", field)
+	}
+
+	if strings.EqualFold(parsed.Scheme, "https") {
+		return nil
+	}
+
+	// Microsoft NCSI publikuje tę konkretną sondę przez HTTP.
+	// Nie zezwalamy na dowolne nieszyfrowane adresy testowe.
+	if strings.EqualFold(parsed.Scheme, "http") &&
+		strings.EqualFold(parsed.Hostname(), "www.msftconnecttest.com") &&
+		parsed.Port() == "" &&
+		parsed.Path == "/connecttest.txt" &&
+		parsed.RawQuery == "" {
+		return nil
+	}
+
+	return fmt.Errorf(
+		"%s must use HTTPS; only http://www.msftconnecttest.com/connecttest.txt is allowed over HTTP",
+		field,
+	)
 }
 
 func sendHeartbeat(c Config, p HeartbeatPayload) (string, int, error) {

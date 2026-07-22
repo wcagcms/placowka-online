@@ -663,6 +663,17 @@
                                 <span class="pdo-status-badge pdo-status-badge--{{ $entry['state'] }}">
                                     {{ $entry['diagnostic'] }}
                                 </span>
+                                <span class="pdo-probe-summary">{{ $entry['probe_summary'] }}</span>
+                                @if($entry['probe_failures'] !== [])
+                                    <details class="pdo-probe-details">
+                                        <summary>Nieudane sondy</summary>
+                                        <ul>
+                                            @foreach($entry['probe_failures'] as $failure)
+                                                <li>{{ $failure }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </details>
+                                @endif
                             </td>
                             <td>{{ $entry['delivery_label'] }}</td>
                             @foreach(['gateway', 'dns', 'internet', 'monitoring'] as $checkKey)
@@ -697,7 +708,18 @@
                         <div><dt>Monitoring</dt><dd>{{ $entry['monitoring']['label'] }}</dd></div>
                         <div><dt>Opóźnienie Internetu</dt><dd>{{ $entry['latency'] }}</dd></div>
                         <div><dt>Opóźnienie DNS</dt><dd>{{ $entry['dns_latency'] }}</dd></div>
+                        <div><dt>Sondy Internetu</dt><dd>{{ $entry['probe_summary'] }}</dd></div>
                     </dl>
+                    @if($entry['probe_failures'] !== [])
+                        <details class="pdo-probe-details">
+                            <summary>Nieudane sondy</summary>
+                            <ul>
+                                @foreach($entry['probe_failures'] as $failure)
+                                    <li>{{ $failure }}</li>
+                                @endforeach
+                            </ul>
+                        </details>
+                    @endif
                 </article>
             @endforeach
         </div>

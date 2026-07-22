@@ -1,6 +1,6 @@
 #define AppName "Placówka Online Agent"
-#define AppVersion "1.0.5"
-#define AgentVersion "exe-1.9.2"
+#define AppVersion "1.0.6"
+#define AgentVersion "exe-1.9.3"
 #define PublisherName "Placówka Online"
 #define ServerUrl "https://monitoring.wcag-cms.pl"
 

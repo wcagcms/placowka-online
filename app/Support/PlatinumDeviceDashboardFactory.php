@@ -6,6 +6,7 @@ use App\Models\Device;
 use App\Models\Heartbeat;
 use App\Models\Incident;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class PlatinumDeviceDashboardFactory
 {
@@ -304,6 +305,28 @@ class PlatinumDeviceDashboardFactory
             $diagnostic = $heartbeat->diagnostic_status
                 ?: ($heartbeat->status === 'online' ? 'online' : 'internet_problem');
 
+            $testDetails = collect(data_get($heartbeat->payload, 'test_details', []))
+                ->filter(fn ($detail): bool => is_array($detail))
+                ->values();
+
+            $successfulProbes = $testDetails
+                ->filter(fn (array $detail): bool => (bool) data_get($detail, 'ok', false))
+                ->count();
+
+            $failedProbes = $testDetails
+                ->reject(fn (array $detail): bool => (bool) data_get($detail, 'ok', false))
+                ->map(function (array $detail): string {
+                    $url = (string) data_get($detail, 'url', '');
+                    $host = parse_url($url, PHP_URL_HOST) ?: $url ?: 'nieznana sonda';
+                    $error = trim((string) data_get($detail, 'error', ''));
+
+                    return $error !== ''
+                        ? $host.': '.Str::limit($error, 140)
+                        : $host.': brak odpowiedzi';
+                })
+                ->values()
+                ->all();
+
             return [
                 'time' => self::dateTime($heartbeat->checked_at ?: $heartbeat->created_at),
                 'diagnostic' => self::diagnosticLabel($diagnostic),
@@ -322,6 +345,10 @@ class PlatinumDeviceDashboardFactory
                 'delivery_label' => $heartbeat->is_replayed
                     ? 'Dostarczony z kolejki po '.self::duration($heartbeat->queue_delay_seconds)
                     : 'Bieżący',
+                'probe_summary' => $testDetails->isNotEmpty()
+                    ? 'Sondy: '.$successfulProbes.'/'.$testDetails->count().' OK'
+                    : 'Brak szczegółów sond',
+                'probe_failures' => $failedProbes,
             ];
         })->all();
 

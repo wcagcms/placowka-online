@@ -13,7 +13,7 @@ use ZipArchive;
 
 class AgentPackageService
 {
-    public const AGENT_VERSION = 'exe-1.9.2';
+    public const AGENT_VERSION = 'exe-1.9.3';
 
     public function createUnenrolledDevice(Facility $facility, string $deviceName): Device
     {
@@ -191,7 +191,7 @@ class AgentPackageService
             'test_urls' => [
                 'https://www.google.com/generate_204',
                 'https://cloudflare.com/cdn-cgi/trace',
-                'https://www.msftconnecttest.com/connecttest.txt',
+                'http://www.msftconnecttest.com/connecttest.txt',
             ],
             'dns_test_host' => parse_url($baseUrl, PHP_URL_HOST) ?: 'monitoring.wcag-cms.pl',
             'windows_services' => app(AgentWindowsServiceConfigService::class)->forAgent(),

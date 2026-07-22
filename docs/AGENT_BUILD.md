@@ -18,7 +18,7 @@ storage/app/agent-installer/inno/PlacowkaOnlineSetup.iss
 
 ```bash
 export PATH="$HOME/.local/go1.26.5/bin:$PATH"
-bash scripts/build-agent-v1.9.2.sh "$PWD"
+bash scripts/build-agent-v1.9.3.sh "$PWD"
 ```
 
 Wygenerowane pliki binarne i paczki są ignorowane przez Git.

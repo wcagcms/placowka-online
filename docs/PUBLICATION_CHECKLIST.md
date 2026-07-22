@@ -2,7 +2,7 @@
 
 ## Tożsamość
 
-- [ ] utworzono publiczne repozytorium `atrojanowski44/placowka-online`;
+- [ ] utworzono publiczne repozytorium `wcagcms/placowka-online`;
 - [ ] opis wskazuje nieodpłatny projekt dla JST;
 - [ ] ustawiono stronę `https://monitoring.wcag-cms.pl`;
 - [ ] licencja GitHub jest rozpoznawana jako AGPL-3.0-or-later.
@@ -31,3 +31,10 @@
 - [ ] dokumenty w `docs/certum` są uzupełnione datą i adresem repozytorium;
 - [ ] certyfikat nie jest jeszcze opisywany jako aktywny, dopóki podpis nie ma
   statusu `Valid`.
+
+## Aktualność wydania
+
+- [ ] agent w repozytorium ma wersję `exe-1.9.3`;
+- [ ] instalator ma wersję `1.0.6`;
+- [ ] domyślna sonda Microsoft używa `http://www.msftconnecttest.com/connecttest.txt`;
+- [ ] tag `v0.2.0` wskazuje commit wykorzystany do budowania wydania.

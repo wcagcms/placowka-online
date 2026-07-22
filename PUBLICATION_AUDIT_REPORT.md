@@ -1,29 +1,27 @@
-# Raport kontroli pakietu publicznego
+# Raport kontroli publikacyjnej
 
-**Data:** 21 lipca 2026 r.  
-**Pakiet:** Placówka Online Public Repository v1.0.0
+**Data:** 22 lipca 2026 r.  
+**Repozytorium:** https://github.com/wcagcms/placowka-online  
+**Wydanie:** `v0.2.0`  
+**Agent:** `exe-1.9.3`  
+**Instalator:** `1.0.6`
 
-## Wykonane kontrole
+## Zakres kontroli
 
-- kontrola składni wszystkich plików PHP: zaliczona;
-- kontrola składni skryptów Bash: zaliczona;
-- walidacja JSON: zaliczona;
-- walidacja YAML GitHub Actions i Issue Forms: zaliczona;
-- `gofmt` dla obu programów Go: zaliczony;
-- testowa cross-kompilacja głównego agenta Windows z lokalnym Go 1.23.2:
-  zaliczona;
-- kontrola obecności pełnej licencji AGPL: zaliczona;
-- kontrola niedozwolonych plików i wzorców sekretów: zaliczona;
-- brak `.env`, baz SQLite, logów, plików EXE, ZIP, PFX/P12, PEM i kluczy:
-  potwierdzony.
+- brak `.env`, baz danych, logów i kopii produkcyjnych;
+- brak tokenów urządzeń, kluczy prywatnych i materiałów certyfikatu;
+- brak gotowych plików EXE, MSI, PFX i P12;
+- publiczny kod agenta i definicja instalatora są dostępne;
+- wszystkie odwołania wskazują organizację `wcagcms`;
+- domyślna sonda Microsoft używa HTTP;
+- dokumentacja odpowiada agentowi `exe-1.9.3`;
+- licencja projektu: `GNU AGPL-3.0-or-later`.
 
-## Kontrole do wykonania po publikacji
+## Wynik
 
-- `composer install` i pełne `php artisan test` w GitHub Actions;
-- `npm install` oraz `npm run build` w GitHub Actions;
-- pełna budowa agenta Go 1.26.5;
-- budowa instalatora Inno Setup na Windows;
-- weryfikacja podpisu Authenticode po otrzymaniu certyfikatu.
+Pakiet jest przygotowany do publikacji po wykonaniu lokalnych kontroli:
 
-Pakiet nie zawiera danych produkcyjnych, binariów ani materiału klucza
-prywatnego Code Signing.
+```bash
+bash scripts/public-repo-audit.sh
+php scripts/php-syntax-check.php
+```

@@ -1429,3 +1429,36 @@
         display: none;
     }
 }
+
+
+.pdo-probe-summary {
+    display: block;
+    margin-top: 0.4rem;
+    color: var(--muted, #64748b);
+    font-size: 0.78rem;
+    line-height: 1.35;
+}
+
+.pdo-probe-details {
+    margin-top: 0.4rem;
+    max-width: 34rem;
+    color: var(--muted, #475569);
+    font-size: 0.78rem;
+}
+
+.pdo-probe-details summary {
+    width: fit-content;
+    cursor: pointer;
+    color: var(--accent, #2563eb);
+    font-weight: 700;
+}
+
+.pdo-probe-details ul {
+    margin: 0.45rem 0 0;
+    padding-left: 1.15rem;
+}
+
+.pdo-probe-details li {
+    overflow-wrap: anywhere;
+    margin-top: 0.25rem;
+}

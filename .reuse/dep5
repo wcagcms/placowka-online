@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: Placówka Online
 Upstream-Contact: Adam Trojanowski <it@it-serwis.net>
-Source: https://github.com/atrojanowski44/placowka-online
+Source: https://github.com/wcagcms/placowka-online
 
 Files: *
 Copyright: 2026 Adam Trojanowski

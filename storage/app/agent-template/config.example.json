@@ -1,0 +1,28 @@
+{
+  "api_url": "https://monitoring.wcag-cms.pl/api/v1/heartbeat/UUID",
+  "monitoring_url": "https://monitoring.wcag-cms.pl/panel/login",
+  "token": "WSTAW_TOKEN",
+  "agent_version": "exe-1.9.3",
+  "location_code": "PP00",
+  "device_name": "SEKRETARIAT",
+  "timeout_seconds": 8,
+  "performance_profile": "low_impact",
+  "system_interval_minutes": 30,
+  "network_interval_minutes": 15,
+  "services_interval_minutes": 5,
+  "smart_interval_minutes": 60,
+  "self_check_interval_minutes": 30,
+  "windows_update_interval_minutes": 720,
+  "defender_interval_minutes": 360,
+  "offline_queue_max_items": 100,
+  "offline_queue_max_age_days": 7,
+  "offline_queue_flush_per_cycle": 10,
+  "startup_jitter_seconds": 15,
+  "test_urls": [
+    "https://www.google.com/generate_204",
+    "https://cloudflare.com/cdn-cgi/trace",
+    "http://www.msftconnecttest.com/connecttest.txt"
+  ],
+  "dns_test_host": "monitoring.wcag-cms.pl",
+  "windows_services": []
+}

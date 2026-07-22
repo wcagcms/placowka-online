@@ -2,9 +2,9 @@
 
 Dzień dobry,
 
-przekazuję publiczne repozytorium projektu Placówka Online:
+przekazuję oficjalne publiczne repozytorium projektu Placówka Online w organizacji WCAG CMS:
 
-https://github.com/atrojanowski44/placowka-online
+https://github.com/wcagcms/placowka-online
 
 Projekt jest udostępniany nieodpłatnie jednostkom samorządu terytorialnego i
 służy do monitorowania stanu technicznego komputerów oraz wspierania ciągłości

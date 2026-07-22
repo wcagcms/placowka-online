@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Device;
 use App\Models\Heartbeat;
+use App\Models\Incident;
 use App\Services\AgentEnrollmentService;
 use App\Services\IncidentLifecycleService;
 use App\Services\IncidentNotificationService;
@@ -102,7 +103,8 @@ class HeartbeatController extends Controller
             }
         }
 
-        $internetOk = (bool) $validated['internet_ok'];
+        $reportedInternetOk = (bool) $validated['internet_ok'];
+        $internetOk = $this->normalizeInternetStatus($validated);
         $dnsOk = (bool) $validated['dns_ok'];
         $gatewayOk = array_key_exists('gateway_ok', $validated) && $validated['gateway_ok'] !== null
             ? (bool) $validated['gateway_ok']
@@ -121,6 +123,8 @@ class HeartbeatController extends Controller
 
         $status = $diagnosticStatus === 'online' ? 'online' : 'problem';
         $payload = $validated;
+        $payload['reported_internet_ok'] = $reportedInternetOk;
+        $payload['internet_ok'] = $internetOk;
         $payload['reported_diagnostic_status'] = $validated['diagnostic_status'] ?? null;
         $payload['diagnostic_status'] = $diagnosticStatus;
         $payload['received_at'] = $receivedAt->toIso8601String();
@@ -458,6 +462,30 @@ class HeartbeatController extends Controller
         ], 401);
     }
 
+    /**
+     * Starsze wersje agenta mogą stosować bardziej rygorystyczny próg sond.
+     * Serwer uznaje dostęp do Internetu za potwierdzony, gdy przynajmniej jedna
+     * publiczna sonda HTTP/HTTPS zakończyła się powodzeniem.
+     *
+     * @param array<string, mixed> $validated
+     */
+    private function normalizeInternetStatus(array $validated): bool
+    {
+        $details = data_get($validated, 'test_details');
+
+        if (! is_array($details) || $details === []) {
+            return (bool) data_get($validated, 'internet_ok', false);
+        }
+
+        foreach ($details as $detail) {
+            if (is_array($detail) && data_get($detail, 'ok') === true) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private function determineDiagnosticStatus(
         ?bool $gatewayOk,
         bool $dnsOk,
@@ -489,28 +517,116 @@ class HeartbeatController extends Controller
         IncidentNotificationService $notifications,
         IncidentLifecycleService $incidents
     ): void {
-        foreach (self::DIAGNOSTIC_INCIDENT_TYPES as $type) {
-            if ($type !== $diagnosticStatus) {
+        $openAfter = max(
+            1,
+            min(10, (int) config('placowka.diagnostic_incident_open_after', 3))
+        );
+
+        $resolveAfter = max(
+            1,
+            min(15, (int) config('placowka.diagnostic_incident_resolve_after', 5))
+        );
+
+        $activeIncidents = Incident::query()
+            ->where('device_id', $device->id)
+            ->whereIn('type', self::DIAGNOSTIC_INCIDENT_TYPES)
+            ->active()
+            ->get();
+
+        if ($diagnosticStatus === 'online') {
+            if ($this->consecutiveDiagnosticCount($device, 'online', $resolveAfter) < $resolveAfter) {
+                return;
+            }
+
+            foreach ($activeIncidents as $activeIncident) {
                 $incidents->resolve(
                     $device,
-                    $type,
-                    'Test diagnostyczny wrócił do stanu prawidłowego.',
+                    $activeIncident->type,
+                    'Połączenie działa prawidłowo w '.$resolveAfter.' kolejnych pomiarach.',
                     $notifications
                 );
             }
+
+            return;
         }
 
-        if ($diagnosticStatus === 'online') {
+        $activeCurrentIncident = $activeIncidents
+            ->firstWhere('type', $diagnosticStatus);
+
+        if ($activeCurrentIncident) {
+            $incidents->openOrTouch(
+                $device,
+                $diagnosticStatus,
+                $this->diagnosticSummary($diagnosticStatus),
+                $incidents->priorityForType($diagnosticStatus),
+                $notifications,
+                [
+                    'stabilization_open_after' => $openAfter,
+                    'stabilization_resolve_after' => $resolveAfter,
+                ]
+            );
+
             return;
+        }
+
+        $consecutiveFailures = $this->consecutiveDiagnosticCount(
+            $device,
+            $diagnosticStatus,
+            $openAfter
+        );
+
+        if ($consecutiveFailures < $openAfter) {
+            return;
+        }
+
+        foreach ($activeIncidents as $activeIncident) {
+            $incidents->resolve(
+                $device,
+                $activeIncident->type,
+                'Poprzedni problem diagnostyczny ustąpił; wykryto nowy stabilny stan połączenia.',
+                $notifications
+            );
         }
 
         $incidents->openOrTouch(
             $device,
             $diagnosticStatus,
-            $this->diagnosticSummary($diagnosticStatus),
+            $this->diagnosticSummary($diagnosticStatus)
+                .' Problem potwierdzono w '.$openAfter.' kolejnych pomiarach.',
             $incidents->priorityForType($diagnosticStatus),
-            $notifications
+            $notifications,
+            [
+                'consecutive_failures' => $consecutiveFailures,
+                'stabilization_open_after' => $openAfter,
+                'stabilization_resolve_after' => $resolveAfter,
+            ]
         );
+    }
+
+    private function consecutiveDiagnosticCount(
+        Device $device,
+        string $expectedStatus,
+        int $limit
+    ): int {
+        $statuses = Heartbeat::query()
+            ->where('device_id', $device->id)
+            ->where('is_replayed', false)
+            ->orderByDesc('checked_at')
+            ->orderByDesc('id')
+            ->limit($limit)
+            ->pluck('diagnostic_status');
+
+        $count = 0;
+
+        foreach ($statuses as $status) {
+            if ((string) $status !== $expectedStatus) {
+                break;
+            }
+
+            $count++;
+        }
+
+        return $count;
     }
 
     private function diagnosticSummary(string $type): string

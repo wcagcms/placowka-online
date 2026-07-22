@@ -3,7 +3,7 @@
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)](LICENSE)
 [![PHP](https://img.shields.io/badge/PHP-8.4-777BB4.svg)](composer.json)
 [![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20.svg)](composer.json)
-[![Agent](https://img.shields.io/badge/Windows%20Agent-exe--1.9.2-2563eb.svg)](docs/AGENT_BUILD.md)
+[![Agent](https://img.shields.io/badge/Windows%20Agent-exe--1.9.3-2563eb.svg)](docs/AGENT_BUILD.md)
 
 **Placówka Online** to nieodpłatny projekt open source przeznaczony dla
 jednostek samorządu terytorialnego oraz podległych im placówek. Pomaga
@@ -66,7 +66,7 @@ Budowa:
 
 ```bash
 export PATH="$HOME/.local/go1.26.5/bin:$PATH"
-bash scripts/build-agent-v1.9.2.sh "$PWD"
+bash scripts/build-agent-v1.9.3.sh "$PWD"
 ```
 
 Instalator Inno Setup budowany jest na Windows. Zobacz
@@ -89,6 +89,12 @@ Kod jest udostępniany na licencji **GNU AGPL-3.0-or-later**. Oznacza to m.in.,
 że publicznie udostępniona przez sieć zmodyfikowana wersja powinna zapewnić
 użytkownikom dostęp do odpowiadającego jej kodu źródłowego. Pełny tekst:
 [LICENSE](LICENSE).
+
+## Repozytorium
+
+- kod źródłowy: https://github.com/wcagcms/placowka-online
+- klonowanie HTTPS: `git clone https://github.com/wcagcms/placowka-online.git`
+- zgłoszenia: https://github.com/wcagcms/placowka-online/issues
 
 ## Autor i kontakt
 

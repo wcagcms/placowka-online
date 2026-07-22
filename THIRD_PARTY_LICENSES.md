@@ -79,7 +79,7 @@ Dokładne wersje określa `composer.lock`. Poniższa lista pochodzi z metadanych
 | sebastian/recursion-context | 6.0.3 | BSD-3-Clause | dev |
 | sebastian/type | 5.1.3 | BSD-3-Clause | dev |
 | sebastian/version | 5.0.2 | BSD-3-Clause | dev |
-| staabm/side-effects-detector | 1.0.5 | MIT | dev |
+| staabm/side-effects-detector | 1.0.6 | MIT | dev |
 | symfony/clock | v8.1.0 | MIT | runtime |
 | symfony/console | v7.4.14 | MIT | runtime |
 | symfony/css-selector | v8.1.0 | MIT | runtime |

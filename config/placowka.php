@@ -13,9 +13,13 @@ return [
 
     'heartbeat_max_payload_bytes' => (int) env('PLACOWKA_HEARTBEAT_MAX_PAYLOAD_BYTES', 262144),
 
+    'diagnostic_incident_open_after' => (int) env('PLACOWKA_DIAGNOSTIC_INCIDENT_OPEN_AFTER', 3),
+
+    'diagnostic_incident_resolve_after' => (int) env('PLACOWKA_DIAGNOSTIC_INCIDENT_RESOLVE_AFTER', 5),
+
     'agent_minimum_go_version' => env('PLACOWKA_AGENT_MINIMUM_GO_VERSION', '1.26.5'),
 
-    'agent_latest_version' => env('PLACOWKA_AGENT_LATEST_VERSION', 'exe-1.9.2'),
+    'agent_latest_version' => env('PLACOWKA_AGENT_LATEST_VERSION', 'exe-1.9.3'),
 
     'agent_self_check_interval_minutes' => (int) env('PLACOWKA_AGENT_SELF_CHECK_INTERVAL_MINUTES', 30),
 
@@ -37,7 +41,7 @@ return [
 
     'agent_enrollment_max_attempts' => (int) env('PLACOWKA_AGENT_ENROLLMENT_MAX_ATTEMPTS', 5),
 
-    'agent_setup_version' => env('PLACOWKA_AGENT_SETUP_VERSION', '1.0.5'),
+    'agent_setup_version' => env('PLACOWKA_AGENT_SETUP_VERSION', '1.0.6'),
 
     'agent_installer_storage_path' => env(
         'PLACOWKA_AGENT_INSTALLER_STORAGE_PATH',

@@ -3,8 +3,8 @@ set -Eeuo pipefail
 
 PROJECT_PATH="${1:-$(cd "$(dirname "$0")/.." && pwd)}"
 MIN_GO_VERSION="${PLACOWKA_AGENT_MINIMUM_GO_VERSION:-1.26.5}"
-SETUP_VERSION="${PLACOWKA_AGENT_SETUP_VERSION:-1.0.5}"
-AGENT_VERSION="exe-1.9.2"
+SETUP_VERSION="${PLACOWKA_AGENT_SETUP_VERSION:-1.0.6}"
+AGENT_VERSION="exe-1.9.3"
 
 version_ge() {
     [ "$(printf '%s\n%s\n' "$2" "$1" | sort -V | head -n1)" = "$2" ]

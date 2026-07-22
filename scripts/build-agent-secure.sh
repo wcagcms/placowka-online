@@ -38,7 +38,7 @@ install -m 0640 "$TMP_DIR/PlacowkaOnlineAgent.exe" "$TARGET_DIR/PlacowkaOnlineAg
 install -m 0640 "$TMP_DIR/PlacowkaOnlineAgentConsole.exe" "$TARGET_DIR/PlacowkaOnlineAgentConsole.exe"
 
 cat > "$TARGET_DIR/BUILD_INFO.txt" <<INFO
-Placówka Online Agent exe-1.9.2
+Placówka Online Agent exe-1.9.3
 
 Źródło: storage/app/agent-template/src/main.go
 Kompilator: $GO_VERSION_RAW

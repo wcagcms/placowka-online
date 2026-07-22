@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "atrojanowski44/placowka-online",
+    "name": "wcagcms/placowka-online",
     "type": "project",
     "description": "Open-source monitoring of Windows computers for local-government units and public institutions.",
     "keywords": [
@@ -94,7 +94,7 @@
     "homepage": "https://monitoring.wcag-cms.pl",
     "support": {
         "email": "it@it-serwis.net",
-        "source": "https://github.com/atrojanowski44/placowka-online",
-        "issues": "https://github.com/atrojanowski44/placowka-online/issues"
+        "source": "https://github.com/wcagcms/placowka-online",
+        "issues": "https://github.com/wcagcms/placowka-online/issues"
     }
 }
