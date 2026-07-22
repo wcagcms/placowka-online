@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
@@ -11,8 +12,8 @@ class SecurityBaselineTest extends TestCase
     {
         parent::setUp();
 
-        Route::get('/_security-baseline-test', static function () {
-            return response('OK');
+        Route::get('/_security-baseline-test', static function (Request $request) {
+            return response($request->getHost());
         });
     }
 
@@ -26,11 +27,7 @@ class SecurityBaselineTest extends TestCase
 
     public function test_responses_contain_required_security_headers(): void
     {
-        $response = $this
-            ->withServerVariables([
-                'HTTP_HOST' => 'localhost',
-            ])
-            ->get('/_security-baseline-test');
+        $response = $this->get('/_security-baseline-test');
 
         $response->assertOk();
 
@@ -80,25 +77,31 @@ class SecurityBaselineTest extends TestCase
         );
     }
 
-    public function test_untrusted_host_is_rejected(): void
+    public function test_untrusted_host_is_rejected_in_production_environment(): void
     {
-        $response = $this
-            ->withServerVariables([
-                'HTTP_HOST' => 'attacker.example',
-            ])
-            ->get('/_security-baseline-test');
+        $this->app->detectEnvironment(
+            static fn (): string => 'production'
+        );
+
+        $response = $this->get(
+            'https://attacker.example/_security-baseline-test'
+        );
 
         $response->assertBadRequest();
     }
 
-    public function test_production_host_is_accepted(): void
+    public function test_production_host_is_accepted_in_production_environment(): void
     {
-        $response = $this
-            ->withServerVariables([
-                'HTTP_HOST' => 'monitoring.wcag-cms.pl',
-            ])
-            ->get('/_security-baseline-test');
+        $this->app->detectEnvironment(
+            static fn (): string => 'production'
+        );
 
-        $response->assertOk();
+        $response = $this->get(
+            'https://monitoring.wcag-cms.pl/_security-baseline-test'
+        );
+
+        $response
+            ->assertOk()
+            ->assertSeeText('monitoring.wcag-cms.pl');
     }
 }
