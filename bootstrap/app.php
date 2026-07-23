@@ -17,6 +17,18 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+		$middleware->trustHosts(
+		at: fn (): array => app()->environment('production')
+        ? [
+            '^monitoring\.wcag-cms\.pl$',
+        ]
+        : [
+            '^monitoring\.wcag-cms\.pl$',
+            '^localhost$',
+            '^127\.0\.0\.1$',
+        ],
+		subdomains: false,
+	);
         $middleware->append(SecurityHeaders::class);
 
         $middleware->alias([
