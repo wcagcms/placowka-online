@@ -275,6 +275,7 @@
 </nav>
 
 <script src="{{ asset('panel/saas-platinum-layout.js') }}" defer></script>
+<script src="{{ asset('panel/security-confirm.js') }}" defer></script>
 @stack('scripts')
 </body>
 </html>

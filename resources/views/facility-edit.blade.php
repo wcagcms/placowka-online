@@ -65,7 +65,7 @@
 
             <div class="actions" style="margin-top:18px;">
                 @if($facility->is_active)
-                    <form class="inline" method="post" action="{{ route('facilities.deactivate', ['facility' => $facility->id]) }}" onsubmit="return confirm('Czy na pewno dezaktywować placówkę? Aktywne urządzenia też zostaną dezaktywowane.');">
+                    <form class="inline" method="post" action="{{ route('facilities.deactivate', ['facility' => $facility->id]) }}" data-confirm="Czy na pewno dezaktywować placówkę? Aktywne urządzenia też zostaną dezaktywowane.">
                         @csrf
                         <button class="btn danger" type="submit">Dezaktywuj placówkę</button>
                     </form>

@@ -12,6 +12,7 @@
 <body class="platinum-body">
     @yield('body')
     <script src="{{ asset('assets/placowka-online-platinum/js/platinum.js') }}" defer></script>
+    <script src="{{ asset('panel/security-confirm.js') }}" defer></script>
     @stack('scripts')
 </body>
 </html>

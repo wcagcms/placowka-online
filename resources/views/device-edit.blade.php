@@ -142,7 +142,7 @@
                 </form>
             @endif
 
-            <form class="inline" method="post" action="{{ route('devices.archive', ['device' => $device->id]) }}" onsubmit="return confirm('Czy na pewno zarchiwizować to urządzenie? Historia pomiarów zostanie zachowana.');">
+            <form class="inline" method="post" action="{{ route('devices.archive', ['device' => $device->id]) }}" data-confirm="Czy na pewno zarchiwizować to urządzenie? Historia pomiarów zostanie zachowana.">
                 @csrf
                 <button class="btn danger" type="submit">Archiwizuj urządzenie</button>
             </form>

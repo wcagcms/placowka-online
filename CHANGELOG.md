@@ -1,3 +1,18 @@
+# Changelog
+
+## [0.3.0] - 2026-07-22
+
+### Security
+
+- hardened production session defaults;
+- added trusted Host header validation;
+- expanded Content Security Policy;
+- removed inline JavaScript event handlers;
+- added production security preflight command;
+- added authentication, authorization, heartbeat and header tests;
+- added dependency audits and npm lockfile enforcement to CI;
+- added verification of all signed Windows release binaries.
+
 # Historia zmian
 
 Format opiera się na Keep a Changelog, a wersje projektu stosują Semantic Versioning.

@@ -13,6 +13,18 @@ ryzyko wynikające z braku aktualizacji lub niesprawnej ochrony.
 > Projekt wspiera administratora, ale nie zastępuje programu antywirusowego,
 > zapory, kopii zapasowych, aktualizacji ani profesjonalnej obsługi IT.
 
+
+## Kontrola bezpieczeństwa produkcji
+
+Po konfiguracji `.env` uruchom:
+
+```bash
+php artisan placowka:security-check --strict
+```
+
+Wzorcowe ustawienia produkcyjne znajdują się w `.env.production.example`.
+Przed wydaniem użyj również `bash scripts/security-preflight.sh`.
+
 ## Najważniejsze funkcje
 
 - heartbeat i status online/offline;

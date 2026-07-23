@@ -9,13 +9,13 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",
     "axios": "^1.11.0",
-    "concurrently": "^10.0.3",
+    "concurrently": "9.2.4",
     "laravel-vite-plugin": "^3.1.3",
     "tailwindcss": "^4.0.0",
     "vite": "^8.1.5"
   },
   "name": "placowka-online",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Public-sector Windows monitoring panel and agent.",
   "license": "AGPL-3.0-or-later"
 }
